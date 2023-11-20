@@ -188,3 +188,89 @@ makes a little more intuitive sense!
 <a name="schema4"></a>
 
 ## 4. Linear Regression Example
+- Importamos librerias
+```
+from pyspark.ml.linalg import Vectors
+from pyspark.ml.feature import VectorAssembler
+```
+- Creamos `assemlber`
+```
+assembler = VectorAssembler(inputCols = ['Avg Session Length','Time on App','Time on Website',
+                                          'Length of Membership'],outputCol= 'features')
+```
+- Transformamos lo datos
+```
+output = assembler.transform(data)
+Row(Email='mstephenson@fernandez.com', Address='835 Frank TunnelWrightmouth, MI 82180-9605', Avatar='Violet', 
+Avg Session Length=34.49726772511229, Time on App=12.65565114916675, Time on Website=39.57766801952616, 
+Length of Membership=4.0826206329529615, Yearly Amount Spent=587.9510539684005, 
+features=DenseVector([34.4973, 12.6557, 39.5777, 4.0826]))
+
+final_data = output.select('features','Yearly Amount Spent')
+final_data.show()
++--------------------+-------------------+
+|            features|Yearly Amount Spent|
++--------------------+-------------------+
+|[34.4972677251122...|  587.9510539684005|
+|[31.9262720263601...|  392.2049334443264|
+|[33.0009147556426...| 487.54750486747207|
+|[34.3055566297555...|  581.8523440352177|
+|[33.3306725236463...|  599.4060920457634|
+|[33.8710378793419...|   637.102447915074|
+|[32.0215955013870...|  521.5721747578274|
+|[32.7391429383803...|  549.9041461052942|
+|[33.9877728956856...|  570.2004089636196|
+|[31.9365486184489...|  427.1993848953282|
+|[33.9925727749537...|  492.6060127179966|
+|[33.8793608248049...|  522.3374046069357|
+|[29.5324289670579...|  408.6403510726275|
+|[33.1903340437226...|  573.4158673313865|
+|[32.3879758531538...|  470.4527333009554|
+|[30.7377203726281...|  461.7807421962299|
+|[32.1253868972878...| 457.84769594494855|
+|[32.3388993230671...| 407.70454754954415|
+|[32.1878120459321...|  452.3156754800354|
+|[32.6178560628234...|   605.061038804892|
++--------------------+-------------------+
+only showing top 20 rows
+```
+- Split los datos
+```
+train_data,test_data = final_data.randomSplit([0.7,0.3])
+```
+- Creamos la lr, entrenamos con los datos de entrenamiento `train_data` y evaluamos con los datos de test `test_data`
+```
+lr = LinearRegression(labelCol = 'Yearly Amount Spent')
+lr_model = lr.fit(train_data)
+test_results = lr_model.evaluate(test_data)
+```
+
+- Residuals son la dieferencia entre el valor predicho y en valor de test_data.
+``
+test_results.residuals.show()
++-------------------+
+|          residuals|
++-------------------+
+| 10.104412520986443|
+|-3.9633767118586434|
+|-21.482702771722074|
+| 18.235885761169186|
+| 3.6472162443516254|
+|0.21055841952920673|
+| -8.268715642350458|
+|   -5.7267730802713|
+| -4.041106092661778|
+|-0.7799654811047958|
+| -8.157202540250069|
+| -6.107007251806351|
+|-11.661247404671258|
+|-17.656972319494855|
+|-1.9811088759401514|
+|  1.241116018237335|
+|  8.541385674374226|
+|-2.5720811380924715|
+| -6.746793838014241|
+|  17.40926163371296|
++-------------------+
+only showing top 20 rows
+```
