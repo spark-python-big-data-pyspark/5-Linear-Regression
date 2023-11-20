@@ -1,6 +1,8 @@
 # 5-Linear-Regression
 1. [Linear Regression Theory and Reading](#schema1)
 2. [Linear Regression Documentacion Example](#schema2)
+3. [Regression Evaluation](#schema3)
+4. [Linear Regression Example](#schema4)
 
 
 <hr>
@@ -163,3 +165,26 @@ only showing top 20 rows
 ```
 Okay, so this data is a bit meaningless, so let's explore this same process with some data that actually 
 makes a little more intuitive sense!
+
+
+<hr>
+
+<a name="schema3"></a>
+
+## 3. Regression Evaluation
+![lr](./img/lr4.png)
+
+![lr](./img/lr5.png)
+
+![lr](./img/lr6.png)
+![lr](./img/lr7.png)
+![lr](./img/lr8.png)
+![lr](./img/lr9.png)
+![lr](./img/lr10.png)
+![lr](./img/lr11.png)
+
+<hr>
+
+<a name="schema4"></a>
+
+## 4. Linear Regression Example
